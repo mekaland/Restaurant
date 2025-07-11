@@ -23,7 +23,7 @@
       "webhookId": "d9c24bb3-0d97-4129-8c3b-9b506bf6753d",
       "credentials": {
         "whatsAppTriggerApi": {
-          "id": "9fTZQCFvyFz2TVhm",
+          "id": "",
           "name": "WhatsApp OAuth account"
         }
       }
@@ -42,7 +42,7 @@
         280,
         20
       ],
-      "id": "95a81a25-1644-47e6-93c4-4d40ecee1532",
+      "id": "",
       "name": "AI Agent"
     },
     {
@@ -60,7 +60,7 @@
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "5vqEtCIXzeBKX4eH",
+          "id": "",
           "name": "Google Gemini(PaLM) Api account 2"
         }
       }
@@ -69,7 +69,7 @@
       "parameters": {
         "operation": "send",
         "phoneNumberId": "=687900561066899",
-        "recipientPhoneNumber": "=905347043474",
+        "recipientPhoneNumber": "=905348043479",
         "textBody": "={{ $json.message }}",
         "additionalFields": {}
       },
@@ -86,7 +86,7 @@
       "alwaysOutputData": false,
       "credentials": {
         "whatsAppApi": {
-          "id": "LfdhrDtiv1cJfH3T",
+          "id": "",
           "name": "WhatsApp account 4"
         }
       }
@@ -113,7 +113,7 @@
       "name": "RandevuAl",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "Zt1hJJ4XMGQjA4tp",
+          "id": "",
           "name": "Google Calendar account 2"
         }
       }
@@ -130,7 +130,7 @@
         220,
         260
       ],
-      "id": "b36eb7a6-7361-4be9-a2d1-f5829678d715",
+      "id": "",
       "name": "Simple Memory"
     },
     {
@@ -153,11 +153,11 @@
         500,
         240
       ],
-      "id": "e634d8e1-49b4-444c-9ecb-d9d010c0de31",
+      "id": "",
       "name": "Takvimle",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "QDwvxmu0fPyQhhjQ",
+          "id": "",
           "name": "Google Calendar account"
         }
       }
@@ -252,7 +252,7 @@
       "name": "Sheets",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "ckWnhV02hjQEsmi9",
+          "id": "",
           "name": "Google Sheets account"
         }
       }
