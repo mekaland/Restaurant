@@ -1,0 +1,375 @@
+{
+  "name": "Restaurant",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": [
+            "all"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0f3f2b40-c5ae-409e-b646-a806def715fd",
+      "name": "WhatsApp Trigger",
+      "webhookId": "d9c24bb3-0d97-4129-8c3b-9b506bf6753d",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "9fTZQCFvyFz2TVhm",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "=\nLezzet Durağı Restoranı – AI Agent System Message\n\nSen Lezzet Durağı Restoranı’nın WhatsApp asistanısın. Ancak bir yapay zeka olduğunu **belirtme**. \nİnsan gibi sade, doğal, karşı tarafın yazma tarzına uygun, profesyonel ama samimi şekilde iletişim kur. \nSisteme veya kendine dair hiçbir açıklama yapma.\n\nGörevin, gelen mesajlara göre müşteriyle sohbet ederek **rezervasyon oluşturmak**, **menüyü tanıtmak**, \n**adres ve fiyat bilgisi vermek**, gerekirse **uygun gün/saat ve masa** ayarlamaktır.\n\n---\n\n✨ Lezzet Durağı Menüsü (Kişi başı ortalama fiyatlar)\n\n- Izgara Köfte: 280₺  \n- Tavuk Şiş: 260₺  \n- Karışık Kebap: 380₺  \n- Fırın Lazanya: 300₺  \n- Mevsim Salata: 120₺  \n- Çorba: 90₺  \n- Tatlı (Künefe / Sufle): 130₺  \n- Meşrubat: 50₺  \n\n📍 Adres & Çalışma Saatleri\n\n- **Adres:** Ahmet Taner Kışlalı Cad. No:34, Nilüfer / BURSA  \n- **Rezervasyon Saatleri:** Hafta içi ve cumartesi 12:00 - 22:00  \n- ❌ Pazar Günleri Kapalıyız\n\n---\n\n💬 Sohbet Akışı\n\n1. Müşterinin ne zaman ve kaç kişi için rezervasyon istediğini sor.  \n2. Uygun saat varsa onayla, yoksa alternatif saat öner.  \n3. İsmini ve telefon numarasını iste.  \n4. Gerekirse menü, fiyat veya adres bilgisi ver.  \n5. Kapanışta teşekkür et, rezervasyonunun hazır olduğunu belirt.\n\n---\n\n🔒 Kurallar\n\n- Kendini asistan olarak tanıtma. İnsan gibi yaz.  \n- \"Merhaba, nasıl yardımcı olabilirim?\" gibi sade ve samimi girişler yap.  \n- Yapay zeka olduğuna dair hiçbir ifade kullanma.  \n- Cümleler kısa ve doğal olsun. Emoji kullanımını en fazla 1 ile sınırla, sadece gerektiğinde kullan.  \n- Her cevapta tek bir adımı sor. Aynı anda 2-3 soru yöneltme.  \n- Müşterinin verdiği cevaba göre ilerle. Asla en baştan başlama.\n\n---\n\n## 🔧 Görev\n\n1. Rezervasyon saatleri için `\"RandevuAl\"` aracını kullan. Bu araçtan gelen bilgileri kullanıcıya **gösterme**.  \n2. Rezervasyon oluşturulacaksa, kullanıcıdan ad-soyad ve telefon numarasını iste. Bu bilgileri `\"Takvimle\"` aracında kullanarak etkinlik oluştur.  \n3. Bilgilerini aldığın kişinin **ismi, telefon numarası, tarih ve saati** `\"Sheets\"` aracını kullanarak kaydet. İsim kısmına kullanıcıdan aldığın isimi gir.\n\nBugün {{ $now }}\ntüm saatler Europe/Istanbul (GMT+3) saat dilimine göre değerlendirmelidir\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        280,
+        20
+      ],
+      "id": "95a81a25-1644-47e6-93c4-4d40ecee1532",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        240
+      ],
+      "id": "6762be81-2bd0-4ad0-9c4f-9d61d0e7da98",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "5vqEtCIXzeBKX4eH",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "=687900561066899",
+        "recipientPhoneNumber": "=905347043474",
+        "textBody": "={{ $json.message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        920,
+        0
+      ],
+      "id": "b083695f-432a-477c-940a-77bb9a3febeb",
+      "name": "Send message",
+      "webhookId": "27bb2f7b-5bf1-41fd-9715-a94723f0d6aa",
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "credentials": {
+        "whatsAppApi": {
+          "id": "LfdhrDtiv1cJfH3T",
+          "name": "WhatsApp account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "mehmetkadirdagli27@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mehmetkadirdagli27@gmail.com"
+        },
+        "timeMax": "={{ $now.plus({ week: 5 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        380,
+        240
+      ],
+      "id": "e16fd742-4c22-4a01-aeec-88ff06318566",
+      "name": "RandevuAl",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "Zt1hJJ4XMGQjA4tp",
+          "name": "Google Calendar account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        220,
+        260
+      ],
+      "id": "b36eb7a6-7361-4be9-a2d1-f5829678d715",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "kadoland34@gmail.com",
+          "mode": "list",
+          "cachedResultName": "kadoland34@gmail.com"
+        },
+        "start": "={{ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ $('WhatsApp Trigger').item.json.contacts[0].profile.name }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        500,
+        240
+      ],
+      "id": "e634d8e1-49b4-444c-9ecb-d9d010c0de31",
+      "name": "Takvimle",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "QDwvxmu0fPyQhhjQ",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kVRZE8ws9InM_yzB1TmHAMLo9x2neodJXvG0oI7yBaU",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sayfa1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kVRZE8ws9InM_yzB1TmHAMLo9x2neodJXvG0oI7yBaU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "İsim": "={{ $('WhatsApp Trigger').item.json.contacts[0].profile.name }}",
+            "Tarih": "={{ $fromAI('Tarih', ``, 'string') }}",
+            "Telefon": "={{ $('WhatsApp Trigger').item.json.messages[0].text.body }}",
+            "Saat": "={{ $fromAI('Saat', ``, 'string') }}",
+            "id": "={{ $('WhatsApp Trigger').item.json.messages[0].id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "Tarih",
+              "displayName": "Tarih",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Saat",
+              "displayName": "Saat",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "İsim",
+              "displayName": "İsim",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefon",
+              "displayName": "Telefon",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        600,
+        240
+      ],
+      "id": "c5ea9bff-99ae-4658-9cfb-c9f5559b9c39",
+      "name": "Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ckWnhV02hjQEsmi9",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      message: $input.first().json.output\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        20
+      ],
+      "id": "c81ccda7-f8af-41a9-aff0-b70a545cf02f",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RandevuAl": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Takvimle": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d9f0f961-3075-4178-9d60-36529d36c483",
+  "meta": {
+    "instanceId": "e91f3d53ba5410c21b83dfda14be41a9f5f653c1fd0d7ac0851b7736ca42e6f5"
+  },
+  "id": "iCUxnYR5cnLJbkdv",
+  "tags": []
+}
